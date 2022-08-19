@@ -3,32 +3,27 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="TodoList Workshop Java Sols">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="TDDTest">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../eclipse/jee-2021-09/eclipse/"/>
+    <property name="ECLIPSE_HOME" value="../../../eclipse/jee-2021-09/eclipse/"/>
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.8"/>
-    <property name="source" value="1.8"/>
-    <path id="JUnit 4.libraryclasspath">
-        <pathelement location="lib/org.junit_4.13.0.v20200204-1500.jar"/>
-        <pathelement location="lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
-    </path>
-    <path id="TodoList Workshop Java Sols.classpath">
+    <property name="target" value="12"/>
+    <property name="source" value="12"/>
+    <path id="TDDTest.classpath">
         <pathelement location="bin"/>
-        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+        <pathelement location="lib/org.junit_4.13.0.v20200204-1500.jar"/>
     </path>
-    <path id="run.sg.edu.nus.iss.epat.tdd.workshop.classpath">
-        <path refid="TodoList Workshop Java Sols.classpath"/>
-        <path refid="JUnit 4.libraryclasspath"/>
+    <path id="run.sg.edu.nus.iss.epat.tdd.workshop (2).classpath">
+        <path refid="TDDTest.classpath"/>
+        <pathelement location="lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+        <pathelement location="lib/org.junit_4.13.0.v20200204-1500.jar"/>
     </path>
-    <path id="run.test.classpath">
-        <path refid="TodoList Workshop Java Sols.classpath"/>
-        <path refid="JUnit 4.libraryclasspath"/>
-    </path>
-    <path id="run.ToDoListTest.classpath">
-        <path refid="TodoList Workshop Java Sols.classpath"/>
-        <path refid="JUnit 4.libraryclasspath"/>
+    <path id="run.ToDoListTest (1).classpath">
+        <path refid="TDDTest.classpath"/>
+        <pathelement location="lib/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+        <pathelement location="lib/org.junit_4.13.0.v20200204-1500.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -47,14 +42,14 @@
         <delete dir="bin"/>
     </target>
     <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project, ToDoListTest,junitreport" name="build"/>
+    <target depends="build-subprojects,build-project, ToDoListTest, junitreport" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <src path="test"/>
-            <classpath refid="TodoList Workshop Java Sols.classpath"/>
+            <classpath refid="TDDTest.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
@@ -71,22 +66,13 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="sg.edu.nus.iss.epat.tdd.workshop">
+    <target name="sg.edu.nus.iss.epat.tdd.workshop (2)">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="sg.edu.nus.iss.epat.tdd.workshop.ToDoListTest" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
-            <classpath refid="run.sg.edu.nus.iss.epat.tdd.workshop.classpath"/>
-        </junit>
-    </target>
-    <target name="test">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="sg.edu.nus.iss.epat.tdd.workshop.ToDoListTest" todir="${junit.output.dir}"/>
-            <jvmarg line="-ea"/>
-            <classpath refid="run.test.classpath"/>
+            <classpath refid="run.sg.edu.nus.iss.epat.tdd.workshop (2).classpath"/>
         </junit>
     </target>
     <target name="ToDoListTest">
@@ -95,7 +81,7 @@
             <formatter type="xml"/>
             <test name="sg.edu.nus.iss.epat.tdd.workshop.ToDoListTest" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
-            <classpath refid="run.ToDoListTest.classpath"/>
+            <classpath refid="run.ToDoListTest (1).classpath"/>
         </junit>
     </target>
     <target name="junitreport">
